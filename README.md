@@ -1,2 +1,2 @@
-# articles
-dev.to articles
+# Blogs, posts, techical write ups and random thoughts
+
