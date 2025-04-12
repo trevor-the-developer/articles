@@ -359,3 +359,31 @@ echo "mssql-logs/" >> .gitignore
 ```
 
 This command adds a directory to the `.gitignore` file, which tells Git to ignore certain files and directories when tracking changes in your project.
+
+#### Confirm Docker Volume is used for data
+The following command should show a mount point:
+```
+docker volume inspect mssql-data
+```
+In this example the output is in JSON when the above command executed:
+```
+[
+    {
+        "CreatedAt": "2025-04-11T12:18:18+01:00",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/mssql-data/_data",
+        "Name": "mssql-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+```
+
+### Wrapping up
+We successfully setup Docker and created a docker-compose file to spin up the latest MSSQL 2022 Server container using a hybrid setup using Docker Volume and Bind Mounts.
+
+### Setting up lazydocker
+[lazydocker](https://github.com/jesseduffield/lazydocker?tab=readme-ov-file) is a great app for managing Docker containers and its fairly easy to setup with various [methods](https://github.com/jesseduffield/lazydocker#installation).
+
+Once installed you can simply run it by typing `lazydocker` to launch the terminal GUI.
