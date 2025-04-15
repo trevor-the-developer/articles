@@ -1,4 +1,4 @@
-# Install and setup MSSQL 2022 docker container on MX linux
+# MX Linux Developer Setup
 
 ## Introduction
 Hello welcome to this guide where we go through the process of setting up Docker on
