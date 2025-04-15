@@ -4,10 +4,11 @@
 Hello welcome to this guide where we go through the process of setting up Docker on
 an MX Linux system (Debian 12 based).
 
-By the end of this guide you will have
-- Docker installed
-- lazydocker tool installed
-- an MSSQL 2022 container running
+By the end of this guide you will have setup
+- Developement tools
+- asdf + Ruby + Rails
+- dotnet 9 SDK for ASP.NET/C# development
+- Docker + lazydocker + an MSSQL 2022 container
 
 This will prepare your Linux environment to work with ASP.NET Core and other development
 environments that can leverage MSSQL 2022 Server.
