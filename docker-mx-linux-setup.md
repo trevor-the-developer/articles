@@ -1,5 +1,5 @@
 # MX Linux Developer Setup
-
+![MX Linux developer laptop](assets/mx-linux-thinkpad.png)
 ## Table of Contents
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
@@ -65,6 +65,7 @@ Here is the spec of the test laptop used for this guide:
 The EVO SDD drive is a big improvement makes the laptop very usable especially due to the light footprint of MX Linux.
 
 ### MX Linux
+![MX Linux 23.4 Libretto Live USB](assets/mx-linux-23.4_live-usb.jpg)
 I recommend MX Linux as lightweight but powerful distro its based on Debian 12 currently and has
 a lot to offer out of the box, you can download it here: https://mxlinux.org/download-links/.
 
@@ -109,6 +110,8 @@ Where `Your Name` is your git username and `your.email@example.com` is the email
 Depending on your development needs, you might want to install a few components I like to have the nodejs, python, Ruby (and Rails using asdf, see below for steps).
 
 #### nodejs via nvm
+![node js](assets/nodejs.png)
+
 I prefer to use nvm for version management:
 ```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
@@ -198,6 +201,7 @@ source ~/.zshrc
 ```
 
 ##### Ruby plugin and latest Ruby
+![node js](assets/ruby.png)
 ```
 asdf plugin add ruby
 asdf list all ruby
@@ -219,6 +223,8 @@ asdf global nodejs latest
 ```
 
 ##### Rails
+![node js](assets/rails.png)
+
 Install the latest Rails
 ```
 gem install rails
@@ -237,6 +243,8 @@ rails -v
 ### Development Tools
 
 #### Code Editors
+![node js](assets/code-editors.png)
+
 I like to edit code both in the terminal and using VS Code.
 ```
 # install micro editor
@@ -250,6 +258,7 @@ sudo apt install ./vscode.deb
 ```
 
 #### Docker for containerisation
+![node js](assets/docker.png)
 ```
 sudo apt install apt-transport-https ca-certificates gnupg lsb-release
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -266,6 +275,8 @@ sudo usermod -aG docker $USER
 ```
 
 #### Postman API Client
+![node js](assets/postman.png)
+
 Postman is a handy API testing tool and quite easy to setup:
 ```
 # download Postman tarball
@@ -280,7 +291,7 @@ sudo ln -s /opt/Postman/Postman /usr/bin/postman
 ```
 
 ##### Postman menu setup
-_add_screenshot_here_
+![MX Linux Postman menu setup](assets/postman-mx_linux-setup.png)
 
 MX Linux menu is quite configurable and you can add Postman to the Development tab with the following steps:
 
@@ -298,9 +309,11 @@ and then left click the MX Linux launcher button navigate to Development and cli
 to launch Postman (you will be prompted to sign-in or register).
 
 #### Terminal Enhancements
+![node js](assets/terminal-enhancements.png)
 I like having split windows in a terminal and first came across this feature when I was testing out the awesome [Omakub](https://omakub.org/) for Ubuntu created by the awesome [DHH](https://dhh.dk/). Thankfully we have TMUX a terminal multiplexer that lets you manage your terminal split it into panes and do other wonderful things be sure to checkout their repo at https://github.com/tmux/tmux/wiki and a handy [cheat sheet](https://cheatography.com/alexandreceolin/cheat-sheets/tmux-terminal-multiplexer/) on [cheatography.com](cheatography.com) that covers all the useful commands (thankfully not as mind numbing as learning VIM or Emacs).
 
 ### Databases
+![node js](assets/databases.jpg)
 I didn't bother with a local database server as per this guide, any DB will be hosted in a docker container of my choice whether its postgres or MSSQL or something else. It is worth having `sqlite3` installed locally for lightweight storage handing when you're scripting or writing some apps like Ruby for automation (or just fun).
 ```
 # SQLite
@@ -308,6 +321,7 @@ sudo apt install sqlite3
 ```
 
 ## MSSQL 2022 Setup
+![node js](assets/mssql-2022.png)
 This section covers setting up the MSSQL 2022 docker image container and configuring to work with MX Linux
 and for development tasks.
 
@@ -419,6 +433,7 @@ In this example the output is in JSON when the above command executed:
 ```
 
 ### Setting up lazydocker
+![alt text](assets/lazydocker.png)
 [lazydocker](https://github.com/jesseduffield/lazydocker?tab=readme-ov-file) is a great app for managing Docker containers and its fairly easy to setup with various [methods](https://github.com/jesseduffield/lazydocker#installation).
 
 Once installed you can simply run it by typing `lazydocker` to launch the terminal GUI.
