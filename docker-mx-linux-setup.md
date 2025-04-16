@@ -434,6 +434,7 @@ In this example the output is in JSON when the above command executed:
 
 ### Setting up lazydocker
 ![alt text](assets/lazydocker.png)
+
 [lazydocker](https://github.com/jesseduffield/lazydocker?tab=readme-ov-file) is a great app for managing Docker containers and its fairly easy to setup with various [methods](https://github.com/jesseduffield/lazydocker#installation).
 
 Once installed you can simply run it by typing `lazydocker` to launch the terminal GUI.
