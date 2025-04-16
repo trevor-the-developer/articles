@@ -1,5 +1,41 @@
 # MX Linux Developer Setup
 
+## Table of Contents
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+  - [System Requirements](#system-requirements)
+  - [MX Linux](#mx-linux)
+  - [sudo Setup](#sudo-setup)
+  - [Essential Development Tools](#essential-development-tools)
+  - [Version Control](#version-control)
+- [Installation](#installation)
+  - [Programming Languages and Environments](#programming-languages-and-environments)
+    - [nodejs via nvm](#nodejs-via-nvm)
+    - [C/C++ Development Tools](#cc-development-tools)
+    - [Ruby, Node.js, and Rails via asdf](#ruby-nodejs-and-rails-via-asdf)
+      - [Dependencies](#dependencies)
+      - [asdf Setup](#asdf-setup)
+      - [Ruby plugin and latest Ruby](#ruby-plugin-and-latest-ruby)
+      - [nodejs via asdf](#nodejs-via-asdf)
+      - [Rails](#rails)
+  - [Development Tools](#development-tools)
+    - [Code Editors](#code-editors)
+    - [Docker for containerisation](#docker-for-containerisation)
+    - [Postman API Client](#postman-api-client)
+      - [Postman menu setup](#postman-menu-setup)
+    - [Terminal Enhancements](#terminal-enhancements)
+  - [Databases](#databases)
+- [MSSQL 2022 Setup](#mssql-2022-setup)
+  - [Docker Compose File](#docker-compose-file)
+    - [Create the `docker-compose.yaml` file](#create-the-docker-composeyaml-file)
+    - [Prepare the log folder](#prepare-the-log-folder)
+    - [Build and start the container](#build-and-start-the-container)
+      - [What is this command doing](#what-is-this-command-doing)
+    - [Git Ignore (optional)](#git-ignore-optional)
+    - [Confirm Docker Volume is used for data](#confirm-docker-volume-is-used-for-data)
+  - [Setting up lazydocker](#setting-up-lazydocker)
+  - [Wrapping up](#wrapping-up)
+
 ## Introduction
 Hello welcome to this guide where we go through the process of setting an MX Linux development environment.
 
@@ -16,16 +52,10 @@ We briefly go over setting up the latest dotnet SDK (version 9 as of the time of
 and a create a very simple application to test connectivity and operation of the MSSQL database
 server.
 
-## Prerequisites and installation
-I recommend MX Linux as lightweight but powerful distro its based on Debian 12 currently and has
-a lot to offer out of the box, you can download it here: https://mxlinux.org/download-links/.
+## Prerequisites
 
-MX Linux was my choice because I also wanted to revive an older laptop and experience what its like to have to battle resources and fine tune your Linux distro for best performance and I have to say I am quite impressed with this little Linux.   Doesn't require too much to setup most guides for Debian and
-Ubuntu are relevant however MX Linux users however do note MX Linux uses `SysVinit` as its default init system, though it also includes `systemd` and allows users to choose between the two using the `systemd-shim` package.
-
-Installation was fairly straightforward I chose the USB boot method and again was impressed by the performance of the Live USB version of MX Linux where you can find the MX Linux installer icon on the desktop and here the setup is painless the usual options for a typical Debian distro.
-
-Here is the spec of the test laptop if anyone is curious:
+### System Requirements
+Here is the spec of the test laptop used for this guide:
 
 - Samsung i5 NP370R UK spec
 - 16GB DDR 1600 ram (max for this laptop)
@@ -34,9 +64,15 @@ Here is the spec of the test laptop if anyone is curious:
 
 The EVO SDD drive is a big improvement makes the laptop very usable especially due to the light footprint of MX Linux.
 
-As this laptop is for development purposes I wanted to ensure it was capable of performing development tasks.   The following is a list of things to install and the steps required to setup your distro:
+### MX Linux
+I recommend MX Linux as lightweight but powerful distro its based on Debian 12 currently and has
+a lot to offer out of the box, you can download it here: https://mxlinux.org/download-links/.
 
-### sudo
+MX Linux was my choice because I also wanted to revive an older laptop and experience what its like to have to battle resources and fine tune your Linux distro for best performance and I have to say I am quite impressed with this little Linux. Doesn't require too much to setup most guides for Debian and Ubuntu are relevant however MX Linux users however do note MX Linux uses `SysVinit` as its default init system, though it also includes `systemd` and allows users to choose between the two using the `systemd-shim` package.
+
+Installation was fairly straightforward I chose the USB boot method and again was impressed by the performance of the Live USB version of MX Linux where you can find the MX Linux installer icon on the desktop and here the setup is painless the usual options for a typical Debian distro.
+
+### sudo Setup
 We need to ensure the sudoer file which controls which users can use the `sudo` command to execute commands with elevated privileges:
 ```
 # User privilege specification
@@ -44,7 +80,7 @@ root    ALL=(ALL:ALL) ALL
 your_username_here  ALL=(ALL:ALL) ALL
 ```
 You will only see the root line, copy this line to next one and then change the root user to whatever your
-logged in username is.   These lines are telling the system those users run any command as any user on any host i.e. giving them admin privileges.
+logged in username is. These lines are telling the system those users run any command as any user on any host i.e. giving them admin privileges.
 
 ### Essential Development Tools
 First make sure the system is up to date:
@@ -67,10 +103,12 @@ git config --global user.email "your.email@example.com"
 ```
 Where `Your Name` is your git username and `your.email@example.com` is the email address registered to your git account.
 
+## Installation
+
 ### Programming Languages and Environments
 Depending on your development needs, you might want to install a few components I like to have the nodejs, python, Ruby (and Rails using asdf, see below for steps).
 
-#### nodejs
+#### nodejs via nvm
 I prefer to use nvm for version management:
 ```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
@@ -128,7 +166,7 @@ Finally run `exec $SHELL -l` to reload the (login) shell.
 sudo apt install gcc g++ cmake gdb
 ```
 
-#### Installing Ruby, Node.js, and Rails
+#### Ruby, Node.js, and Rails via asdf
 
 ##### Dependencies
 ```
@@ -136,7 +174,7 @@ sudo apt update
 sudo apt install -y build-essential autoconf bison libssl-dev libyaml-dev libreadline-dev zlib1g-dev libncurses-dev libffi-dev libgdbm-dev curl git
 ```
 
-##### asdf
+##### asdf Setup
 Clone asdf into your home directory:
 ```
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.13.1
@@ -166,14 +204,14 @@ asdf list all ruby
 asdf install ruby latest
 asdf global ruby latest
 ```
-This can take a few minutes depending on your hardware specifications.  Once complete you
+This can take a few minutes depending on your hardware specifications. Once complete you
 can test Ruby with the following command:
 ```
 ruby -v
 ```
 This should display the latest version number of Ruby that is installed (3.4.2 at the time of writing).
 
-##### nodejs
+##### nodejs via asdf
 ```
 asdf plugin add nodejs
 asdf install nodejs latest
@@ -196,7 +234,9 @@ node -v
 rails -v
 ```
 
-### Code Editors
+### Development Tools
+
+#### Code Editors
 I like to edit code both in the terminal and using VS Code.
 ```
 # install micro editor
@@ -209,7 +249,7 @@ wget -O vscode.deb "https://code.visualstudio.com/sha/download?build=stable&os=l
 sudo apt install ./vscode.deb
 ```
 
-### Docker for containerisation
+#### Docker for containerisation
 ```
 sudo apt install apt-transport-https ca-certificates gnupg lsb-release
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -225,19 +265,7 @@ sudo apt install docker-ce docker-ce-cli containerd.io
 sudo usermod -aG docker $USER
 ```
 
-### Miscellaneous items
-
-#### Databases
-I didn't bother with a local database server as per this guide, any DB will be hosted in a docker container of my choice whether its postgres or MSSQL or something else.   It is worth having `sqlite3` installed locally for lightweight storage handing when you're scripting or writing some apps like Ruby for automation (or just fun).
-```
-# SQLite
-sudo apt install sqlite3
-```
-
-#### Terminal stuff
-I like having split windows in a terminal and first came across this feature when I was testing out the awesome [Omakub](https://omakub.org/) for Ubuntu created by the awesome [DHH](https://dhh.dk/).  Thankfully we have TMUX a terminal multiplexer that lets you manage your terminal split it into panes and do other wonderful things be sure to checkout their repo at https://github.com/tmux/tmux/wiki and a handy [cheat sheet](https://cheatography.com/alexandreceolin/cheat-sheets/tmux-terminal-multiplexer/) on [cheatography.com](cheatography.com) that covers all the useful commands (thankfully not as mind numbing as learning VIM or Emacs).
-
-#### Postman
+#### Postman API Client
 Postman is a handy API testing tool and quite easy to setup:
 ```
 # download Postman tarball
@@ -265,11 +293,21 @@ MX Linux menu is quite configurable and you can add Postman to the Development t
 - Set the Command to `/opt/Postman/Postman`
 - Left-click the disk icon to save (next to the + button)
 
-You should now see the Postman icon displayed under the Development category.   Close the MenuLibre window
+You should now see the Postman icon displayed under the Development category. Close the MenuLibre window
 and then left click the MX Linux launcher button navigate to Development and click on the Postman icon
 to launch Postman (you will be prompted to sign-in or register).
 
-## Setup
+#### Terminal Enhancements
+I like having split windows in a terminal and first came across this feature when I was testing out the awesome [Omakub](https://omakub.org/) for Ubuntu created by the awesome [DHH](https://dhh.dk/). Thankfully we have TMUX a terminal multiplexer that lets you manage your terminal split it into panes and do other wonderful things be sure to checkout their repo at https://github.com/tmux/tmux/wiki and a handy [cheat sheet](https://cheatography.com/alexandreceolin/cheat-sheets/tmux-terminal-multiplexer/) on [cheatography.com](cheatography.com) that covers all the useful commands (thankfully not as mind numbing as learning VIM or Emacs).
+
+### Databases
+I didn't bother with a local database server as per this guide, any DB will be hosted in a docker container of my choice whether its postgres or MSSQL or something else. It is worth having `sqlite3` installed locally for lightweight storage handing when you're scripting or writing some apps like Ruby for automation (or just fun).
+```
+# SQLite
+sudo apt install sqlite3
+```
+
+## MSSQL 2022 Setup
 This section covers setting up the MSSQL 2022 docker image container and configuring to work with MX Linux
 and for development tasks.
 
@@ -348,7 +386,7 @@ This command is monitoring the SQL Server error log file in real-time.
 
 The tail command is a Unix/Linux utility that displays the last part of a file. By default, it shows the last 10 lines of a file.
 
-The `-f` flag (which stands for "follow") is what makes this particularly useful.   It causes tail to continuously monitor the file and display new lines as they're added to the file.   This creates a real-time stream of the log content as it's being written.
+The `-f` flag (which stands for "follow") is what makes this particularly useful. It causes tail to continuously monitor the file and display new lines as they're added to the file. This creates a real-time stream of the log content as it's being written.
 
 `./mssql-logs/errorlog` is the relative path to Microsoft SQL Server's error log file. The `./` indicates that the `mssql-logs` directory is located in the current working directory.
 
@@ -380,10 +418,10 @@ In this example the output is in JSON when the above command executed:
 ]
 ```
 
-### Wrapping up
-We successfully setup Docker and created a docker-compose file to spin up the latest MSSQL 2022 Server container using a hybrid setup using Docker Volume and Bind Mounts.
-
 ### Setting up lazydocker
 [lazydocker](https://github.com/jesseduffield/lazydocker?tab=readme-ov-file) is a great app for managing Docker containers and its fairly easy to setup with various [methods](https://github.com/jesseduffield/lazydocker#installation).
 
 Once installed you can simply run it by typing `lazydocker` to launch the terminal GUI.
+
+### Wrapping up
+We successfully setup Docker and created a docker-compose file to spin up the latest MSSQL 2022 Server container using a hybrid setup using Docker Volume and Bind Mounts.
