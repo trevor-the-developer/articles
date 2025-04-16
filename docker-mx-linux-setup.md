@@ -1,8 +1,7 @@
 # MX Linux Developer Setup
 
 ## Introduction
-Hello welcome to this guide where we go through the process of setting up Docker on
-an MX Linux system (Debian 12 based).
+Hello welcome to this guide where we go through the process of setting an MX Linux development environment.
 
 By the end of this guide you will have setup
 - Developement tools
