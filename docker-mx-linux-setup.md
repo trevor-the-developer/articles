@@ -389,6 +389,7 @@ _**Note:** the prefix key default is `ctrl+b`_
 
 ### Databases
 ![databases](assets/databases.jpg)
+
 I didn't bother with a local database server as per this guide, any DB will be hosted in a docker container of my choice whether its postgres or MSSQL or something else. It is worth having `sqlite3` installed locally for lightweight storage handing when you're scripting or writing some apps like Ruby for automation (or just fun).
 ```
 # SQLite
@@ -508,15 +509,36 @@ In this example the output is in JSON when the above command executed:
 ]
 ```
 
-##### Setting up lazydocker
+### lazydocker
 ![lazydocker](assets/lazydocker.png)
 
 [lazydocker](https://github.com/jesseduffield/lazydocker?tab=readme-ov-file) is a great app for managing Docker containers and its fairly easy to setup with various [methods](https://github.com/jesseduffield/lazydocker#installation).
 
-Once installed you can simply run it by typing `lazydocker` to launch the terminal GUI.
+I have detailed two methods below either one will get `lazydocker` setup ready for use.
 
-##### Wrapping up
-We successfully setup Docker and created a docker-compose file to spin up the latest MSSQL 2022 Server container using a hybrid setup using Docker Volume and Bind Mounts. We setup `lazydocker` a terminal based Docker management UI.
+#### Install using the installation script
+
+This is the easiest method:
+
+```bash
+curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+```
+
+#### Download a binary release
+
+1. Visit the releases page: https://github.com/jesseduffield/lazydocker/releases
+2. Download the Linux tarball for your architecture (likely `lazydocker_0.20.0_Linux_x86_64.tar.gz` or similar)
+3. Extract it:
+   ```bash
+   tar -xzf lazydocker_0.20.0_Linux_x86_64.tar.gz
+   ```
+4. Move the binary to a directory in your PATH:
+   ```bash
+   sudo mv lazydocker /usr/local/bin/
+   ```
+
+Once installed you can simply run it by typing `lazydocker` in a terminal to launch the terminal GUI.
+
 
 ## rclone
 **Rclone** is a powerful, command-line tool for managing files on a wide variety of cloud storage services. Often called *"The Swiss army knife of cloud storage"*, it supports over 70 backends—from Google Drive and Dropbox to S3-compatible services and standard transfer protocols like FTP and WebDAV.
