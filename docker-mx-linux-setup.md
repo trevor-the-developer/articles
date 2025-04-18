@@ -1,5 +1,6 @@
 # MX Linux Developer Setup
 ![MX Linux developer laptop](assets/mx-linux-thinkpad.png)
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
@@ -24,23 +25,36 @@
     - [Postman API Client](#postman-api-client)
       - [Postman menu setup](#postman-menu-setup)
     - [Terminal Enhancements](#terminal-enhancements)
+      - [TMUX](#tmux)
+      - [TMUX commands](#tmux-commands)
   - [Databases](#databases)
-- [MSSQL 2022 Setup](#mssql-2022-setup)
-  - [Docker Compose File](#docker-compose-file)
-    - [Create the `docker-compose.yaml` file](#create-the-docker-composeyaml-file)
-    - [Prepare the log folder](#prepare-the-log-folder)
-    - [Build and start the container](#build-and-start-the-container)
-      - [What is this command doing](#what-is-this-command-doing)
-    - [Git Ignore (optional)](#git-ignore-optional)
-    - [Confirm Docker Volume is used for data](#confirm-docker-volume-is-used-for-data)
-  - [Setting up lazydocker](#setting-up-lazydocker)
-  - [Wrapping up](#wrapping-up)
+    - [MSSQL 2022 Setup](#mssql-2022-setup)
+      - [Docker Compose File](#docker-compose-file)
+        - [Create the docker-compose.yaml file](#create-the-docker-composeyaml-file)
+        - [Prepare the log folder](#prepare-the-log-folder)
+        - [Build and start the container](#build-and-start-the-container)
+        - [What is this command doing](#what-is-this-command-doing)
+        - [Git Ignore (optional)](#git-ignore-optional)
+        - [Confirm Docker Volume is used for data](#confirm-docker-volume-is-used-for-data)
+      - [Setting up lazydocker](#setting-up-lazydocker)
+      - [Wrapping up](#wrapping-up)
+- [rclone](#rclone)
+  - [Installation](#rclone-installation)
+  - [Configuration](#configuration)
+    - [Setting Up Google Drive Remote](#setting-up-google-drive-remote)
+  - [Basic Usage](#basic-usage)
+  - [Setting Up Automatic Mounting](#setting-up-automatic-mounting)
+  - [Advanced Usage](#advanced-usage)
+  - [Troubleshooting](#troubleshooting)
+    - [Common Issues and Solutions](#common-issues-and-solutions)
+  - [Additional Resources](#additional-resources)
+  - [Conclusion](#conclusion)
 
 ## Introduction
 Hello welcome to this guide where we go through the process of setting an MX Linux development environment.
 
-By the end of this guide you will have setup
-- Developement tools
+By the end of this guide you will have setup:
+- Development tools
 - asdf + Ruby + Rails
 - dotnet 9 SDK for ASP.NET/C# development
 - Docker + lazydocker + an MSSQL 2022 container
@@ -66,6 +80,7 @@ The EVO SDD drive is a big improvement makes the laptop very usable especially d
 
 ### MX Linux
 ![MX Linux 23.4 Libretto Live USB](assets/mx-linux-23.4_live-usb.jpg)
+
 I recommend MX Linux as lightweight but powerful distro its based on Debian 12 currently and has
 a lot to offer out of the box, you can download it here: https://mxlinux.org/download-links/.
 
@@ -201,7 +216,7 @@ source ~/.zshrc
 ```
 
 ##### Ruby plugin and latest Ruby
-![node js](assets/ruby.png)
+![ruby](assets/ruby.png)
 ```
 asdf plugin add ruby
 asdf list all ruby
@@ -223,7 +238,7 @@ asdf global nodejs latest
 ```
 
 ##### Rails
-![node js](assets/rails.png)
+![rails](assets/rails.png)
 
 Install the latest Rails
 ```
@@ -243,7 +258,7 @@ rails -v
 ### Development Tools
 
 #### Code Editors
-![node js](assets/code-editors.png)
+![code editors](assets/code-editors.png)
 
 I like to edit code both in the terminal and using VS Code.
 ```
@@ -258,7 +273,7 @@ sudo apt install ./vscode.deb
 ```
 
 #### Docker for containerisation
-![node js](assets/docker.png)
+![docker](assets/docker.png)
 ```
 sudo apt install apt-transport-https ca-certificates gnupg lsb-release
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -275,7 +290,7 @@ sudo usermod -aG docker $USER
 ```
 
 #### Postman API Client
-![node js](assets/postman.png)
+![postman](assets/postman.png)
 
 Postman is a handy API testing tool and quite easy to setup:
 ```
@@ -304,31 +319,92 @@ MX Linux menu is quite configurable and you can add Postman to the Development t
 - Set the Command to `/opt/Postman/Postman`
 - Left-click the disk icon to save (next to the + button)
 
-You should now see the Postman icon displayed under the Development category. Close the MenuLibre window
-and then left click the MX Linux launcher button navigate to Development and click on the Postman icon
-to launch Postman (you will be prompted to sign-in or register).
+You should now see the Postman icon displayed under the Development category. Close the MenuLibre window and then left click the MX Linux launcher button navigate to Development and click on the Postman icon to launch Postman (you will be prompted to sign-in or register).
 
 #### Terminal Enhancements
-![node js](assets/terminal-enhancements.png)
-I like having split windows in a terminal and first came across this feature when I was testing out the awesome [Omakub](https://omakub.org/) for Ubuntu created by the awesome [DHH](https://dhh.dk/). Thankfully we have TMUX a terminal multiplexer that lets you manage your terminal split it into panes and do other wonderful things be sure to checkout their repo at https://github.com/tmux/tmux/wiki and a handy [cheat sheet](https://cheatography.com/alexandreceolin/cheat-sheets/tmux-terminal-multiplexer/) on [cheatography.com](cheatography.com) that covers all the useful commands (thankfully not as mind numbing as learning VIM or Emacs).
+![terminal enhancements](assets/terminal-enhancements.png)
+
+I like having split windows in a terminal and first came across this feature when I was testing out the awesome [Omakub](https://omakub.org/) for Ubuntu created by the awesome [DHH](https://dhh.dk/). Thankfully we have TMUX a terminal multiplexer that lets you manage your terminal split it into panes and do other wonderful.
+
+##### TMUX
+1. Update the packages list
+```
+sudo apt update
+```
+2. Install TMUX
+```
+sudo apt install tmux
+```
+3. Verify installation
+```
+tmux -V
+```
+
+##### TMUX commands
+Below is a list of some common useful commands for `tmux` (organised by category, for more commands and details checkout the **cheatography.com** [cheat sheet](https://cheatography.com/alexandreceolin/cheat-sheets/tmux-terminal-multiplexer/)):
+
+_**Note:** the prefix key default is `ctrl+b`_ 
+
+1. Session Management
+- `tmux` - Start a new session
+- `tmux new -s sessionname` - Start a new named session
+- `tmux ls` - List all sessions
+- `tmux attach` or `tmux a` - Attach to the last session
+- `tmux attach -t sessionname` - Attach to a specific session
+- `tmux kill-session -t sessionname` - Kill a specific session
+- `tmux kill-server` - Kill all sessions
+
+2. Pane Management
+- `Prefix + "` - Split pane horizontally
+- `Prefix + %` - Split pane vertically
+- `Prefix + arrow key` - Navigate between panes
+- `Prefix + o` - Cycle through panes
+- `Prefix + z` - Toggle pane zoom (maximize/restore a pane)
+- `Prefix + x` - Kill current pane
+- `Prefix + {` - Move current pane left
+- `Prefix + }` - Move current pane right
+- `Prefix + Ctrl+arrow` - Resize pane in arrow direction
+- `Prefix + q` - Show pane numbers (press a number to quickly jump to that pane)
+
+3. Window (Tab) Management
+- `Prefix + c` - Create new window
+- `Prefix + n` - Move to next window
+- `Prefix + p` - Move to previous window
+- `Prefix + number` - Switch to window by number
+- `Prefix + w` - List windows (interactive selection)
+- `Prefix + ,` - Rename current window
+- `Prefix + &` - Kill current window
+
+4. Copy Mode
+- `Prefix + [` - Enter copy mode (use vi or emacs keys to navigate)
+- `Space` - Start selection (in copy mode)
+- `Enter` - Copy selection (in copy mode)
+- `Prefix + ]` - Paste copied text
+
+5. Other useful commands
+- `Prefix + d` - Detach from session
+- `Prefix + :` - Enter command mode
+- `Prefix + ?` - List all key bindings
+- `Prefix + t` - Show clock
 
 ### Databases
-![node js](assets/databases.jpg)
+![databases](assets/databases.jpg)
 I didn't bother with a local database server as per this guide, any DB will be hosted in a docker container of my choice whether its postgres or MSSQL or something else. It is worth having `sqlite3` installed locally for lightweight storage handing when you're scripting or writing some apps like Ruby for automation (or just fun).
 ```
 # SQLite
 sudo apt install sqlite3
 ```
 
-## MSSQL 2022 Setup
-![node js](assets/mssql-2022.png)
+#### MSSQL 2022 Setup
+![mssql 2022](assets/mssql-2022.png)
+
 This section covers setting up the MSSQL 2022 docker image container and configuring to work with MX Linux
 and for development tasks.
 
-### Docker Compose File
+##### Docker Compose File
 This example creates a docker-compose file that spins up an MSSQL 2022 Server container with the data folder as a volume and logs as a bind mount.
 
-#### Create the `docker-compose.yaml` file
+###### Create the docker-compose.yaml file
 Lets use micro to create the file in the test folder (I created a new folder called `mssql-2022` under `/home/trevor/Development/Docker`):
 ```
 micro docker-compose.yaml
@@ -362,7 +438,7 @@ volumes:
 ```
 Press `Ctrl + s` once again to save and then press `Ctrl + q` to quit the editor.
 
-#### Prepare the log folder
+###### Prepare the log folder
 Now create the log folder and set the permissions for the `mssql` user:
 ```
 mkdir -p ./mssql-logs
@@ -382,7 +458,7 @@ Finally set the permission to avoid issues when SQL server tries to write the lo
 sudo chown -R 10001:0 ./mssql-logs
 ```
 
-#### Build and start the container
+###### Build and start the container
 The following command will start everything clean, destroying an old containers and volumes and rebuilds using the docker-compose file:
 ```
 docker compose down -v
@@ -395,7 +471,7 @@ To inspect the container logs we can use the following command:
 tail -f ./mssql-logs/errorlog
 ```
 
-##### What is this command doing
+###### What is this command doing
 This command is monitoring the SQL Server error log file in real-time.
 
 The tail command is a Unix/Linux utility that displays the last part of a file. By default, it shows the last 10 lines of a file.
@@ -404,7 +480,7 @@ The `-f` flag (which stands for "follow") is what makes this particularly useful
 
 `./mssql-logs/errorlog` is the relative path to Microsoft SQL Server's error log file. The `./` indicates that the `mssql-logs` directory is located in the current working directory.
 
-#### Git Ignore (optional)
+###### Git Ignore (optional)
 If you are adding your `docker-compose.yaml` file to your project folder that is using github then you need to exclude the logs folder (if its located in the same location, best practice would be to locate this folder somewhere else like `/var/log`, if you do this remember to set the appropriate permission as detailed previously):
 ```
 echo "mssql-logs/" >> .gitignore
@@ -412,7 +488,7 @@ echo "mssql-logs/" >> .gitignore
 
 This command adds a directory to the `.gitignore` file, which tells Git to ignore certain files and directories when tracking changes in your project.
 
-#### Confirm Docker Volume is used for data
+###### Confirm Docker Volume is used for data
 The following command should show a mount point:
 ```
 docker volume inspect mssql-data
@@ -432,12 +508,253 @@ In this example the output is in JSON when the above command executed:
 ]
 ```
 
-### Setting up lazydocker
-![alt text](assets/lazydocker.png)
+##### Setting up lazydocker
+![lazydocker](assets/lazydocker.png)
 
 [lazydocker](https://github.com/jesseduffield/lazydocker?tab=readme-ov-file) is a great app for managing Docker containers and its fairly easy to setup with various [methods](https://github.com/jesseduffield/lazydocker#installation).
 
 Once installed you can simply run it by typing `lazydocker` to launch the terminal GUI.
 
-### Wrapping up
-We successfully setup Docker and created a docker-compose file to spin up the latest MSSQL 2022 Server container using a hybrid setup using Docker Volume and Bind Mounts.
+##### Wrapping up
+We successfully setup Docker and created a docker-compose file to spin up the latest MSSQL 2022 Server container using a hybrid setup using Docker Volume and Bind Mounts. We setup `lazydocker` a terminal based Docker management UI.
+
+## rclone
+**Rclone** is a powerful, command-line tool for managing files on a wide variety of cloud storage services. Often called *"The Swiss army knife of cloud storage"*, it supports over 70 backends—from Google Drive and Dropbox to S3-compatible services and standard transfer protocols like FTP and WebDAV.
+
+Designed as a robust alternative to vendor-specific web interfaces, Rclone offers a familiar experience for Linux users, with commands that mirror common UNIX utilities such as `cp`, `mv`, `ls`, `cat`, and even `mount`. Whether you're scripting automated backups or manually syncing files, Rclone's `--dry-run` and pipeline-friendly syntax make it both safe and efficient.
+
+### Installation {#rclone-installation}
+Open a terminal and run the following commands:
+
+```bash
+# Install rclone from the Debian repositories
+sudo apt update
+sudo apt install rclone
+
+# Verify installation
+rclone version
+```
+
+### Configuration
+
+#### Setting Up Google Drive Remote
+
+1. Start the configuration process:
+   ```bash
+   rclone config
+   ```
+
+2. Follow the interactive setup:
+   ```
+   n) New remote
+   name> gdrive    # Enter a name for your remote (use whatever name you prefer)
+
+   # Select Google Drive from the list of storage types
+   Storage> drive
+
+   client_id>      # Press Enter to use default
+   client_secret>  # Press Enter to use default
+
+   scope> 1        # Usually select option 1 for full access
+
+   root_folder_id> # Press Enter for default (root of your Drive)
+
+   service_account_file> # Press Enter unless you have one
+
+   y) Yes this is OK
+   ```
+
+3. Complete authentication:
+   - Rclone will provide a URL
+   - Open the URL in your web browser
+   - Log in to your Google account and grant permission
+   - Copy the verification code back to the terminal
+
+4. Verify setup:
+   ```bash
+   rclone lsd gdrive:
+   ```
+   This will list directories in your Google Drive.
+
+### Basic Usage
+
+1. Listing Files and Directories
+
+```bash
+# List directories
+rclone lsd gdrive:
+
+# List all files and directories
+rclone ls gdrive:
+
+# List files with details (size, date, path)
+rclone lsf gdrive: --format=ps
+
+# Search for specific files
+rclone lsf gdrive: --include "*.pdf"
+```
+
+2. Mounting Google Drive
+
+```bash
+# Create a mount point
+mkdir ~/google-drive
+
+# Mount your Google Drive
+rclone mount gdrive: ~/google-drive --daemon
+
+# To unmount
+fusermount -u ~/google-drive
+```
+
+3. Transferring Files
+
+```bash
+# Copy a file from local to Google Drive
+rclone copy /path/to/local/file.txt gdrive:destination/folder/
+
+# Copy a file from Google Drive to local
+rclone copy gdrive:path/to/file.txt ~/local-destination/
+
+# Copy a directory and all contents
+rclone copy gdrive:path/to/directory ~/local-destination/ -P
+
+# Sync folders (make destination identical to source)
+rclone sync ~/local-directory gdrive:remote-directory -P
+```
+
+4. Copying Large Files with Progress Display
+
+For large file transfers, use the progress flag to monitor the operation:
+
+```bash
+# Copy with progress display
+rclone copy gdrive:path/to/large/file.ext ~/local-destination/ -P
+
+# Copy with progress and increased transfer parallelism
+rclone copy gdrive:path/to/folder ~/local-destination/ -P --transfers=4 --checkers=8
+```
+
+The `-P` flag shows:
+- Transfer speed
+- ETA (estimated time of arrival)
+- Percentage completed
+- Amount transferred
+
+For large transfers that might take hours:
+
+```bash
+# Run in background and log progress
+nohup rclone copy gdrive:path/to/folder ~/local-destination/ -P --stats-one-line > rclone_log.txt &
+
+# Check the log file
+tail -f rclone_log.txt
+```
+
+### Setting Up Automatic Mounting
+
+To have your Google Drive automatically mount at system startup:
+
+1. Create a systemd service file:
+   ```bash
+   sudo nano /etc/systemd/system/rclone-gdrive.service
+   ```
+
+2. Add these contents (adjust paths and username):
+   ```
+   [Unit]
+   Description=Google Drive Mount with Rclone
+   After=network-online.target
+   Wants=network-online.target
+
+   [Service]
+   Type=simple
+   User=YOUR_USERNAME
+   ExecStart=/usr/bin/rclone mount gdrive: /home/YOUR_USERNAME/google-drive --vfs-cache-mode=writes
+   ExecStop=/bin/fusermount -u /home/YOUR_USERNAME/google-drive
+   Restart=on-failure
+   RestartSec=30
+
+   [Install]
+   WantedBy=multi-user.target
+   ```
+
+3. Enable and start the service:
+   ```bash
+   sudo systemctl enable rclone-gdrive.service
+   sudo systemctl start rclone-gdrive.service
+   ```
+
+4. Check service status:
+   ```bash
+   sudo systemctl status rclone-gdrive.service
+   ```
+
+### Advanced Usage
+
+1. Check Space Usage
+
+```bash
+rclone about gdrive:
+```
+
+2. Working with Shared Drives (Team Drives)
+
+```bash
+# List available team drives
+rclone lsd gdrive:
+
+# Access files in a team drive
+rclone ls "gdrive:Team Drive Name"
+```
+
+3. Bandwidth Control
+
+```bash
+# Limit bandwidth to 1MB/s
+rclone copy gdrive:file.mp4 ~/ --bwlimit 1M -P
+```
+
+4. Use with Cron for Scheduled Backups
+
+Example crontab entry for daily backup at 2 AM:
+```
+0 2 * * * /usr/bin/rclone sync /home/user/documents gdrive:backup/documents --log-file=/home/user/logs/backup.log
+```
+
+### Troubleshooting
+
+#### Common Issues and Solutions
+
+1. **Authentication failed**: Re-run `rclone config` and set up the remote again.
+
+2. **Mount not responding**: Unmount and remount:
+   ```bash
+   fusermount -u ~/google-drive
+   rclone mount gdrive: ~/google-drive --daemon
+   ```
+
+3. **Files not appearing**: Refresh the virtual filesystem:
+   ```bash
+   rclone rc vfs/refresh recursive=true
+   ```
+
+4. **Connection problems**: Try reconnecting:
+   ```bash
+   rclone config reconnect gdrive:
+   ```
+
+5. **Slow transfers**: Increase parallelism and adjust chunk size:
+   ```bash
+   rclone copy gdrive:folder local/ -P --transfers=8 --checkers=16 --drive-chunk-size=32M
+   ```
+
+### Additional Resources
+
+- [Official Rclone Documentation](https://rclone.org/docs/)
+- [Rclone Google Drive Specific Documentation](https://rclone.org/drive/)
+- [Rclone GitHub Repository](https://github.com/rclone/rclone)
+
+### Conclusion
+
+Rclone provides a powerful, flexible solution for connecting MX Linux to Google Drive. With its command-line interface, it offers efficient file management capabilities, from simple transfers to complex synchronization tasks. Whether you need to download individual files or maintain synchronized backups, rclone provides the tools needed to effectively manage your Google Drive contents from your Debian-based system.
