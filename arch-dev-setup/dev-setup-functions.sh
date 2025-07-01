@@ -218,7 +218,31 @@ install_aur_packages() {
 setup_dotnet() {
     print_step "Setting up .NET development environment"
     
-    install_pacman_packages dotnet-sdk dotnet-runtime
+    # Install specific .NET SDK version 9.0.203 using Microsoft installer
+    print_step "Installing .NET SDK 9.0.203"
+    curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version 9.0.203
+    
+    # Configure environment variables
+    print_step "Configuring .NET environment variables"
+    if ! grep -q "DOTNET_ROOT=\$HOME/\.dotnet" ~/.zshrc; then
+        echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.zshrc
+        print_info "Added DOTNET_ROOT to ~/.zshrc"
+    fi
+    
+    if ! grep -q "PATH=\$HOME/\.dotnet:" ~/.zshrc; then
+        echo 'export PATH=$HOME/.dotnet:$PATH:$HOME/.dotnet/tools' >> ~/.zshrc
+        print_info "Added .NET to PATH in ~/.zshrc"
+    fi
+    
+    # Source the updated configuration for current session
+    export DOTNET_ROOT=$HOME/.dotnet
+    export PATH=$HOME/.dotnet:$PATH:$HOME/.dotnet/tools
+    
+    # Verify installation
+    if command_exists dotnet; then
+        local dotnet_version=$(dotnet --version 2>/dev/null || echo "unknown")
+        print_info "Installed .NET SDK version: $dotnet_version"
+    fi
     
     if ! command_exists dotnet-ef; then
         print_step "Installing Entity Framework tools"
@@ -227,7 +251,7 @@ setup_dotnet() {
         print_info "Entity Framework tools already installed"
     fi
     
-    print_success ".NET development environment ready"
+    print_success ".NET development environment ready (version 9.0.203)"
 }
 
 setup_ruby() {

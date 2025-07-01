@@ -231,15 +231,24 @@ sudo pacman -S pipewire pipewire-alsa pipewire-pulse wireplumber
 
 ### .NET Development
 ```bash
-# Install .NET SDK
-sudo pacman -S dotnet-sdk dotnet-runtime
+# Install specific .NET SDK version 9.0.203 using Microsoft installer
+curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version 9.0.203
+
+# Configure environment variables
+echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.zshrc
+echo 'export PATH=$HOME/.dotnet:$PATH:$HOME/.dotnet/tools' >> ~/.zshrc
+
+# Source the updated configuration
+source ~/.zshrc
 
 # Verify installation
-dotnet --version
+dotnet --version  # Should show 9.0.203
 
 # Install Entity Framework tools (optional)
 dotnet tool install --global dotnet-ef
 ```
+
+**Note:** This approach installs .NET SDK 9.0.203 to your home directory (`~/.dotnet`), which takes precedence over any system-installed .NET versions. This ensures you get the exact version needed for your development projects.
 
 ### Ruby and Rails Development (Using asdf)
 ```bash
