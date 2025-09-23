@@ -209,7 +209,91 @@ public class ServiceBusPublisher : IServiceBusPublisher
 }
 ```
 
-## Benefits
+### Azure Function Entry Point
+
+```csharp
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Logging;
+using System.Text.Json;
+
+public class CsvProcessingFunction
+{
+    private readonly ILogger<CsvProcessingFunction> _logger;
+    private readonly JsonProcessingService _processingService;
+
+    public CsvProcessingFunction(
+        ILogger<CsvProcessingFunction> logger,
+        JsonProcessingService processingService)
+    {
+        _logger = logger;
+        _processingService = processingService;
+    }
+
+    [Function("ProcessCsv")]
+    public async Task<string> Run(
+        [HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req)
+    {
+        _logger.LogInformation("CSV processing function triggered");
+
+        try
+        {
+            var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var request = JsonSerializer.Deserialize<CsvProcessingRequest>(requestBody);
+
+            if (request?.CsvData == null)
+            {
+                return JsonSerializer.Serialize(new { error = "CSV data is required" });
+            }
+
+            var result = await _processingService.ParseJsonAsync(request.CsvData, request.Options);
+
+            return JsonSerializer.Serialize(new
+            {
+                success = result.Success,
+                message = result.Message,
+                data = result.Data,
+                fileId = Guid.NewGuid().ToString()
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error processing CSV in Azure Function");
+            return JsonSerializer.Serialize(new { error = "Internal server error" });
+        }
+    }
+
+    [Function("ProcessCsvFromBlob")]
+    public async Task Run(
+        [BlobTrigger("csv-input/{name}")] Stream csvStream,
+        string name)
+    {
+        _logger.LogInformation("Processing CSV file: {FileName}", name);
+
+        try
+        {
+            using var reader = new StreamReader(csvStream);
+            var csvContent = await reader.ReadToEndAsync();
+
+            var result = await _processingService.ParseJsonAsync(csvContent);
+
+            if (result.Success)
+            {
+                _logger.LogInformation("Successfully processed CSV file: {FileName}", name);
+            }
+            else
+            {
+                _logger.LogError("Failed to process CSV file: {FileName}. Error: {Error}", name, result.Message);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error processing CSV file: {FileName}", name);
+        }
+    }
+}
+```
+
+## Benefits of the Function Service Pattern
 
 ### For Business Users
 - **Real-time Data Access**: Get processed data immediately after CSV upload
