@@ -6,6 +6,8 @@
 
 This document describes a cloud-based data processing solution built with .NET 9 that transforms CSV files into JSON format and makes the processed data available through multiple consumption channels. The architecture follows an event-driven pattern with microservices handling different aspects of the data pipeline.
 
+The [JSON-Parser](https://github.com/trevor-the-developer/JSON-Exporter?tab=readme-ov-file) solution is a standalone console implementation that can be prompted into an Azure Function App and Service as detailed in this document.
+
 ## Architecture Components
 
 ### Core Processing Flow
