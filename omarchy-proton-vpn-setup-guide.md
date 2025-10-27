@@ -113,7 +113,7 @@ Check that your IP address has changed:
 curl ifconfig.me
 ```
 
-This should show the IP address of the VPN server (not your real IP).  You can check this by going to the following location: https://ip.me/ enter the IP address to do a lookup and you can also check the IP address against what is being shown by the website.
+This should show the IP address of the VPN server (not your real IP).
 
 ## Step 9: Create Convenient Aliases (Optional)
 
@@ -205,12 +205,60 @@ If you see `AUTH_FAILED`, double-check:
 - You're using **OpenVPN/IKEv2 credentials** (not your regular account login)
 - Your credentials are correct in `~/.config/ovpn/auth.txt`
 - There are no extra spaces or characters in the auth file
+- **Try resetting your OpenVPN credentials** on the ProtonVPN account page (Account → OpenVPN/IKEv2 username → regenerate password)
 
 ### DNS Script Error
 
 If you see an error about `/etc/openvpn/update-resolv-conf` not found:
 - Verify the symlink exists: `ls -la /etc/openvpn/update-resolv-conf`
 - Recreate it if needed (see Step 2)
+
+### VPN Drops After a Few Minutes / Network Dies
+
+This is usually caused by **conflicting network managers**. Check what's running:
+
+```bash
+systemctl status NetworkManager
+systemctl status systemd-networkd
+```
+
+You should only have **ONE** of these active. 
+
+**If using NetworkManager (most desktop setups):**
+```bash
+sudo systemctl disable --now systemd-networkd
+sudo systemctl mask systemd-networkd
+sudo systemctl restart NetworkManager
+```
+
+**If using systemd-networkd (minimal setups like Omarchy):**
+```bash
+sudo systemctl disable --now NetworkManager
+sudo systemctl mask NetworkManager
+sudo systemctl restart systemd-networkd
+```
+
+After resolving the conflict, restart your VPN connection.
+
+### Connection Drops Intermittently
+
+Add persistence and keepalive options to your `.ovpn` file:
+
+```bash
+nano ~/.config/ovpn/your-config.ovpn
+```
+
+Add these lines at the end:
+```
+persist-tun
+persist-key
+keepalive 10 60
+```
+
+These options:
+- `persist-tun`: Keeps the tunnel device open across restarts
+- `persist-key`: Doesn't re-read key files on restart
+- `keepalive 10 60`: Pings every 10 seconds, restarts after 60 seconds of no response
 
 ### Connection Works But No Internet
 
@@ -219,9 +267,11 @@ Check your DNS:
 cat /etc/resolv.conf
 ```
 
-You may need to restart NetworkManager:
+Restart your network manager (whichever one you're using):
 ```bash
 sudo systemctl restart NetworkManager
+# or
+sudo systemctl restart systemd-networkd
 ```
 
 ## Managing Multiple VPN Servers
