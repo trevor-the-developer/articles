@@ -113,7 +113,7 @@ Check that your IP address has changed:
 curl ifconfig.me
 ```
 
-This should show the IP address of the VPN server (not your real IP).
+  This should show the IP address of the VPN server (not your real IP) and you can check this by going to [whatismyip.com](https://www.whatismyip.com/) and viewing the details (it should show the VPN country and the IP address).
 
 ## Step 9: Create Convenient Aliases (Optional)
 
