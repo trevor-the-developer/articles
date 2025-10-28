@@ -65,6 +65,21 @@ Move your downloaded `.ovpn` files to this directory:
 mv ~/Downloads/*.ovpn ~/.config/ovpn/
 ```
 
+**Recommended: Add auth-nocache to prevent reconnection issues**
+
+Edit each `.ovpn` file to prevent credential caching problems:
+
+```bash
+nano ~/.config/ovpn/your-config.ovpn
+```
+
+Add this line anywhere in the file (recommended near the top):
+```
+auth-nocache
+```
+
+This prevents OpenVPN from caching credentials in memory, which can cause authentication failures when reconnecting quickly.
+
 ## Step 6: Create an Authentication File
 
 To avoid typing your credentials every time you connect, create an authentication file:
@@ -113,7 +128,7 @@ Check that your IP address has changed:
 curl ifconfig.me
 ```
 
-  This should show the IP address of the VPN server (not your real IP) and you can check this by going to [whatismyip.com](https://www.whatismyip.com/) and viewing the details (it should show the VPN country and the IP address).
+This should show the IP address of the VPN server (not your real IP) - you can check this against [ifconfig.me](https://ifconfig.me).
 
 ## Step 9: Create Convenient Aliases (Optional)
 
@@ -206,6 +221,21 @@ If you see `AUTH_FAILED`, double-check:
 - Your credentials are correct in `~/.config/ovpn/auth.txt`
 - There are no extra spaces or characters in the auth file
 - **Try resetting your OpenVPN credentials** on the ProtonVPN account page (Account → OpenVPN/IKEv2 username → regenerate password)
+
+**If AUTH_FAILED happens on reconnect (after Ctrl+C):**
+
+This is often due to credential caching or the server not releasing your session immediately. Add `auth-nocache` to your config:
+
+```bash
+nano ~/.config/ovpn/your-config.ovpn
+```
+
+Add this line:
+```
+auth-nocache
+```
+
+Alternatively, wait 30-60 seconds after disconnecting before reconnecting to allow the server to clean up your previous session. Free ProtonVPN accounts only allow **1 connection at a time**, so ensure you don't have another active VPN session on another device.
 
 ### DNS Script Error
 
