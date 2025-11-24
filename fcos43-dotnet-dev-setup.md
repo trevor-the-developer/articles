@@ -248,7 +248,7 @@ Modify the host .bashrc add an alias to make it easy to use the command on the h
 alias awscli='distrobox-enter aws-tools -- aws'
 ```
 
-Reload the shell `source ~/.bashrc` and test with `awscli s3 ls` this should show the Garage S3 bucket if one was setup - see the [guide](https://garagehq.deuxfleurs.fr/documentation/quick-start/).
+Reload the shell `source ~/.bashrc` and test with `awscli s3 ls` this should show the Garage S3 bucket if one was setup - see this [guide](https://garagehq.deuxfleurs.fr/documentation/quick-start/).
 
 ## Conclusion
 
