@@ -252,6 +252,8 @@ Reload the shell `source ~/.bashrc` and test with `awscli s3 ls` this should sho
 
 ## Conclusion
 
+### VS Code Distrobox Setup Guide [here](https://github.com/trevor-the-developer/articles/blob/main/fcos43-vscode-distrobox-setup.md)
+
 This completes the .NET development environment on a Fedora Core 43 based Linux Distro such as Bazzite, feel free to add your own apps and perform any setup as required however do note:
 - use a distrobox container (name it `dev-tools`) to install developer tools (`sudo dnf group install development-tools`)
 - flatpak applications may not have access to the host files Rider is one example
