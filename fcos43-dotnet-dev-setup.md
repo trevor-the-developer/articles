@@ -202,7 +202,7 @@ Entity Framework Core .NET Command-line Tools
 ```
 
 ## Optional AWS-CLI
-If you use any of the S3 type containers (Garage, Minio etc) then you need to create a distrobox container to install AWS-CLI as Fedora Core 43 is an immutable system and commands like `sudo dnf` do not work on the host only inside distrobox containers.
+If you use any of the S3 type containers (*Garage, Minio etc*) then you need to create a distrobox container to install AWS-CLI as Fedora Core 43 is an immutable system and commands like `sudo dnf` do not work on the host only inside distrobox containers.
 
 ### Create the container and setup AWS-CLI
 
