@@ -98,7 +98,7 @@ Create a new project or open an existing .NET project and then go to the Setting
 
 If you need to adjust the UI font scaling left-click on **Appearance & Behaviour** and select **Appearance** then set the Zoom to 125% or greater for your needs.
 
-Next select **Build, Execution, Deployment** form the left hand column and then **Toolset and Build** sub-item to display the build settings.  The MSBuild version should be auto selected to .NET SDK 10 this is fine unless you need a specific version then browse to the correct version by left-clicking on the Custom.. button and browsing to the correct SDK verison folder and selecting the MSBuild.dll file).
+Next select **Build, Execution, Deployment** form the left hand column and then **Toolset and Build** sub-item to display the build settings.  The MSBuild version should be auto selected to .NET SDK 10 this is fine unless you need a specific version then browse to the correct version by left-clicking on the Custom.. button and browsing to the correct SDK verison folder and selecting the MSBuild.dll file.
 
 Press the Save button at the bottom right if you have made any changes and exit the settings screen.
 
