@@ -28,7 +28,7 @@ Now make the file executable:
 chmod +x dotnet-install.sh
 ```
 
-Finally run the script to install your desired SDK's (for this guide I selected .NET 10, 9,0 and 8.0):
+Finally run the script to install your desired SDK's (for this guide I selected .NET 10, 9.0 and 8.0):
 ```bash
 # .NET 10
 ./dotnet-install.sh --version latest
