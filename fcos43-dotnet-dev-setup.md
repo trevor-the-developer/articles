@@ -173,8 +173,7 @@ source ~/.bashrc
 ```
 
 #### Test the fix
-```bash# Reload your shell or start a new terminal
-source ~/.bashrc
+```bash
 
 # Check if dotnet-ef works now
 dotnet-ef --version
