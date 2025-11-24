@@ -108,7 +108,7 @@ Podman is installed by default however podman-compose offers similar features to
 rpm-ostree install podman-compose
 ```
 
-The changes will be queued and applied on the next reboot (if its safe to do so type `reboot` in the terminal to do this).
+The changes will be queued and applied on the next reboot (*if its safe to do so type `reboot` in the terminal to do this*).
 
 When you have logged back in you can test both podman and podman-compose to confirm operation:
 ```bash
