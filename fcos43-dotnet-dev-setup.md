@@ -94,7 +94,7 @@ Upon the first launch, JetBrains Toolbox App will also create a
 #### Rider first run
 Launch Rider from the Gnome Launcher or type `rider` in a terminal to start the application.
 
-Create a new project or open an existing .NET project and then go to the Settings screen (gear icon on top right or left-click the burger icon top left from the File menu select Settings or Ctrl+Alt+S keys to display the settings screen).
+Create a new project or open an existing .NET project and then go to the Settings screen (*gear icon on top right or left-click the burger icon top left from the File menu select Settings or Ctrl+Alt+S keys to display the settings screen*).
 
 If you need to adjust the UI font scaling left-click on **Appearance & Behaviour** and select **Appearance** then set the Zoom to 125% or greater for your needs.
 
