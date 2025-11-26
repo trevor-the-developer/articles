@@ -121,8 +121,10 @@ The first item should be `C# Dev Kit` select this and left-click on the **Instal
 
 Modify the host .bashrc add an alias to make it easy to use the command on the host:
 
-`# add this on a new line at the end:
-alias vscode='distrobox-enter dev-apps -- code .`
+```
+# add this on a new line at the end:
+alias vscode='distrobox-enter dev-apps -- code .
+```
 
 Reload the shell source ~/.bashrc and test with `vscode` in your project folder (*this should load VS Code and open the project folder you execute the command from*).
 
