@@ -120,8 +120,7 @@ The first item should be `C# Dev Kit` select this and left-click on the **Instal
 #### Make VS Code accessible from the host terminal
 
 Modify the host .bashrc add an alias to make it easy to use the command on the host:
-
-```
+```bash
 # add this on a new line at the end:
 alias vscode='distrobox-enter dev-apps -- code .
 ```
