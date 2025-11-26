@@ -117,6 +117,15 @@ Start VS Code by launching from the Gnome Launcher or typing `code` inside the D
 
 The first item should be `C# Dev Kit` select this and left-click on the **Install** button to begin the installation.   This extension also installs several other extensions like C# base language support giving a rich user experience for .NET developers in VS Code (*you will get prompted to sign into the Visual Studio subscription you can do this now if you have it*).
 
+#### Make VS Code accessible from the host terminal
+
+Modify the host .bashrc add an alias to make it easy to use the command on the host:
+
+# add this on a new line at the end:
+`alias vscode='distrobox-enter dev-apps -- code .`
+
+Reload the shell source ~/.bashrc and test with `vscode` in your project folder (*this should load VS Code and open the project folder you execute the command from*).
+
 ### Summary
 
 We now have a fully functional development environment where:
