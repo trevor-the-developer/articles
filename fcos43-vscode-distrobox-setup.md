@@ -137,3 +137,12 @@ We now have a fully functional development environment where:
 - All tools work together in harmony
 
 This is a really clean setup that gives the isolation benefits of containers while leveraging the host's tooling and can be applied to most use cases (I recommend separation of concern here create containers for each development scenario e.g Ruby, Nodejs etc).
+
+## Contributing
+
+If you found this guide helpful, consider sharing it with the Bazzite/Universal Blue community on their Discord or GitHub discussions!
+
+---
+
+**Last Updated**: November 2025  
+**Tested On**: Bazzite 43 (Fedora Core 43), NVIDIA Driver 580.95.05
