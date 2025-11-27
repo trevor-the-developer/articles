@@ -259,3 +259,12 @@ This completes the .NET development environment on a Fedora Core 43 based Linux 
 - flatpak applications may not have access to the host files Rider is one example
 - don't clutter the base image (using `rpm-ostree`) with apps and tools unless necessary
 - apps installed inside a distrobox container are available to the Gnome desktop and the host
+
+## Contributing
+
+If you found this guide helpful, consider sharing it with the Bazzite/Universal Blue community on their Discord or GitHub discussions!
+
+---
+
+**Last Updated**: November 2025  
+**Tested On**: Bazzite 43 (Fedora Core 43), NVIDIA Driver 580.95.05
