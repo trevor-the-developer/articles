@@ -108,6 +108,18 @@ sudo dnf install code # or code-insiders (the nightly build)
 # Export VS Code to your host applications
 distrobox-export --app code
 ```
+Then type `code` on the host to launch (or `code .` to launch opening the current directory)
+
+You can alias VS Code instead of exporting the app, if preferred:
+```bash
+# modify ~/.bashrc add then save and exit
+alias vscode='distrobox-enter dev-apps -- code .'
+
+# reload the shell
+source ~/.bashrc
+```
+Then type `vscode` on the host to launch (or `vscode .` to launch opening the current directory)
+
 
 This will create a launcher in your host's application menu (Gnome launcher on Bazzite).
 
