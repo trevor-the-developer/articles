@@ -259,4 +259,4 @@ If you found this guide helpful, consider sharing it with the Bazzite/Universal 
 ---
 
 **Last Updated**: November 2025  
-**Tested On**: Bazzite 43 (Fedora Core 43), NVIDIA Driver 580.95.05
+**Tested On**: Bazzite 43 (*Fedora Core 43*), NVIDIA Driver 580.95.05
