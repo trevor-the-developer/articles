@@ -119,6 +119,18 @@ az login
 az config set core.persistence=true
 ```
 
+### Install dotnet net templates (required for func init command)
+```bash
+# Install the Azure Functions Worker templates for .NET 9 isolated
+dotnet new install Microsoft.Azure.Functions.Worker.ProjectTemplates
+
+# Also install the WebJobs templates (sometimes needed)
+dotnet new install Microsoft.Azure.WebJobs.ProjectTemplates
+
+# Verify installation
+dotnet new list | grep -i "azure.*func"
+```
+
 ### Azurite
 
 The best way to run the Azure Storage Emulator is a Docker image.   Create a `docker-compose.yml` in a suitable location:
