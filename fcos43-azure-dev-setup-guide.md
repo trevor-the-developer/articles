@@ -29,7 +29,7 @@ distrobox enter azure-tools
 
 Once the setup is complete install nano editor:
 ```bash
-sudo dnf install nano
+sudo apt-get install nano
 ```
 
 We need to modify the sudoers file to ensure the container user has elevated privileges:
