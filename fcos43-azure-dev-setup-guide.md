@@ -127,6 +127,9 @@ dotnet new install Microsoft.Azure.Functions.Worker.ProjectTemplates
 # Also install the WebJobs templates (sometimes needed)
 dotnet new install Microsoft.Azure.WebJobs.ProjectTemplates
 
+# schedule exports
+func new --name ScheduledExport --template "Timer trigger"
+
 # Verify installation
 dotnet new list | grep -i "azure.*func"
 ```
