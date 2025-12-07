@@ -119,16 +119,16 @@ az login
 az config set core.persistence=true
 ```
 
-### Install dotnet net templates (required for func init command)
+### Install dotnet net templates globaly on the host (required for func init command)
 ```bash
 # Install the Azure Functions Worker templates for .NET 9 isolated
-dotnet new install Microsoft.Azure.Functions.Worker.ProjectTemplates
+sudo dotnet new install Microsoft.Azure.Functions.Worker.ProjectTemplates
 
 # Also install the WebJobs templates (sometimes needed)
-dotnet new install Microsoft.Azure.WebJobs.ProjectTemplates
+sudo dotnet new install Microsoft.Azure.WebJobs.ProjectTemplates
 
 # schedule exports
-func new --name ScheduledExport --template "Timer trigger"
+sudo func new --name ScheduledExport --template "Timer trigger"
 
 # Verify installation
 dotnet new list | grep -i "azure.*func"
